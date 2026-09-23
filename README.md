@@ -41,7 +41,7 @@ ecommerce-api/
 ├── alembic/                # 数据库迁移
 ├── core/                   # 配置及核心功能
 ├── crud/                   # 数据库 CRUD 操作
-├── endpoints/              # API 路由及接口
+├── api/                    # API 路由及接口
 ├── models/                 # SQLAlchemy 数据模型
 ├── schemas/                # Pydantic 数据模型
 ├── tests/                  # 自动化测试
@@ -49,13 +49,12 @@ ecommerce-api/
 ├── main.py                 # 应用程序入口
 ├── pyproject.toml          # 项目及依赖配置
 ├── Dockerfile              # Docker 配置
-├── ecommerce.postman_collection.json
 └── README.md
 ```
 
 ## 环境要求
 
-* Python 3.10+
+* Python 3.11
 * PostgreSQL
 * Redis
 * Docker（可选）
@@ -66,7 +65,7 @@ ecommerce-api/
 ### 1. 获取项目
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/hui86306-hash/ecommerce-api.git
 cd ecommerce-api
 ```
 
@@ -81,7 +80,7 @@ poetry install
 激活虚拟环境：
 
 ```bash
-poetry shell
+poetry run <command>
 ```
 
 也可以直接使用：
@@ -92,16 +91,9 @@ poetry run <command>
 
 ### 3. 配置环境变量
 
-在项目根目录创建 `.env` 文件，并根据实际环境配置数据库、Redis 和支付相关参数。
+在项目根目录创建 `.env` 文件。
 
-```env
-SQLALCHEMY_DATABASE_URL=your_database_url
-
-REDIS_URL=your_redis_url
-
-PAYSTACK_PUBLIC_KEY=your_public_key
-PAYSTACK_SECRET_KEY=your_secret_key
-```
+可以复制项目中的 `.env.example` 作为配置模板，然后根据本地环境修改数据库、Redis、JWT 和支付相关配置。
 
 > `.env` 文件仅用于本地开发，不应提交到 Git 仓库。
 
