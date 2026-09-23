@@ -1,0 +1,33 @@
+# Virtual environment
+.venv/
+venv/
+
+# Environment variables
+.env
+!.env.example
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+
+# Database / Redis local data
+dump.rdb
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary / backup files
+*.bak
