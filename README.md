@@ -74,7 +74,7 @@ cd ecommerce-api
 本项目使用 Poetry 管理 Python 依赖：
 
 ```bash
-poetry install
+poetry install --no-root
 ```
 
 激活虚拟环境：
