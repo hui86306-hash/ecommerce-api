@@ -79,6 +79,33 @@ async def sort_product_by_price(
         limit=limit,
     )
 
+@router.get("/filter", response_model=list[ProductReturn])
+async def filter_products_by_price(
+    min_price: int = Query(..., ge=0),
+    max_price: int = Query(..., ge=0),
+    skip: int = Query(default=0),
+    limit: int = Query(default=20),
+    product_service: ProductService = Depends(get_product_service),
+):
+    return await product_service.filter_products_by_price(
+        min_price=min_price,
+        max_price=max_price,
+        skip=skip,
+        limit=limit,
+    )
+
+@router.get("/top-rated", response_model=list[ProductReturn])
+async def get_top_rated_products(
+    min_rating: float = Query(default=4.0, ge=0, le=5),
+    skip: int = Query(default=0),
+    limit: int = Query(default=20),
+    product_service: ProductService = Depends(get_product_service),
+):
+    return await product_service.get_top_rated_products(
+        min_rating=min_rating,
+        skip=skip,
+        limit=limit,
+    )
 
 @router.get("/{id}", response_model=ProductReturn)
 async def get_one_product(

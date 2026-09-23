@@ -1,6 +1,6 @@
 from typing import List, Union
 from fastapi import Depends
-from sqlalchemy import desc
+from sqlalchemy import desc,func
 
 import sqlalchemy
 import sqlalchemy.orm
@@ -62,6 +62,45 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
             .limit(limit)
             .all()
         )
+        return product_query
+    def filter_products_by_price(
+        self,
+        min_price: int,
+        max_price: int,
+        skip: int = 0,
+        limit: int = 20,
+    ) -> List[Product]:
+        product_query = (
+            self._db.query(self.model)
+            .filter(self.model.price >= min_price)
+            .filter(self.model.price <= max_price)
+            .filter(self.model.product_status == True)
+            .order_by(desc(self.model.price))
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
+
+        return product_query
+
+    def get_top_rated_products(
+        self,
+        min_rating: float = 4.0,
+        skip: int = 0,
+        limit: int = 20,
+    ) -> List[Product]:
+        product_query = (
+            self._db.query(self.model)
+            .join(ProductReview, ProductReview.product_id == self.model.id)
+            .filter(self.model.product_status == True)
+            .group_by(self.model.id)
+            .having(func.avg(ProductReview.rating) >= min_rating)
+            .order_by(desc(func.avg(ProductReview.rating)))
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
+
         return product_query
 
     def get_active_products(self, id: int) -> Product:

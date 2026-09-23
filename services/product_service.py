@@ -109,6 +109,38 @@ class ProductService:
         product = self.crud_product.sort_product_by_price(skip=skip, limit=limit)
         return product
 
+    async def filter_products_by_price(
+        self,
+        min_price: int,
+        max_price: int,
+        skip: int = 0,
+        limit: int = 20,
+    ):
+        if min_price > max_price:
+            raise ValueError("min_price cannot be greater than max_price")
+
+        return self.crud_product.filter_products_by_price(
+            min_price=min_price,
+            max_price=max_price,
+            skip=skip,
+            limit=limit,
+        )
+
+    async def get_top_rated_products(
+        self,
+        min_rating: float = 4.0,
+        skip: int = 0,
+        limit: int = 20,
+    ):
+        if min_rating < 0 or min_rating > 5:
+            raise ValueError("min_rating must be between 0 and 5")
+
+        return self.crud_product.get_top_rated_products(
+            min_rating=min_rating,
+            skip=skip,
+            limit=limit,
+        )
+
     async def get_one_product(
         self,
         product_id: int,
